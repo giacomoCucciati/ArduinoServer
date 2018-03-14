@@ -14,7 +14,9 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/books', express.static(path.join(__dirname, 'dist')));
 app.use('/book', book);
-
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname , "dist","index.html"));
+});
 
 
 // catch 404 and forward to error handler
