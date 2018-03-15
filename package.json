@@ -16,6 +16,7 @@
     "chart.js": "^2.7.2",
     "express": "^4.16.2",
     "firmata": "^0.19.1",
+    "gulp": "^3.9.1",
     "morgan": "^1.9.0",
     "serialport": "^6.1.1",
     "serve-favicon": "^2.4.5",

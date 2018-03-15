@@ -31,6 +31,7 @@ module.exports = function(theSocket) {
   };
 
   var elaborateData = function(theSerialData) {
+    console.log(theSerialData)
     var d = new Date();
     for (var property in theSerialData) {
       if (theSerialData.hasOwnProperty(property)) {
@@ -57,6 +58,7 @@ module.exports = function(theSocket) {
       mytimer = setInterval( function(){
         arduino.activatereading();
       }, configs.intervalReading*1000);
+      arduino.activatereading();
     }
   };
 

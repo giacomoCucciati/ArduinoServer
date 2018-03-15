@@ -98,7 +98,7 @@ export default {
     },
 
     readSingleTemp (event) {
-      axios.get('/guiapi/read-single-temp')
+      axios.post('/guiapi/read-single-temp')
         .then((response) => {
           this.message = response.data.message
         }).catch(e => {
@@ -107,7 +107,6 @@ export default {
     },
 
     toggleTempReading (event) {
-      console.log(this.contreading)
       axios.post('/guiapi/toggle-reading-temp', { reading: this.contreading })
         .then((response) => {
           this.message = response.data.message

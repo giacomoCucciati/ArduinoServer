@@ -39,7 +39,7 @@ module.exports = function (theSocket) {
   })
 
   // Read serial port
-  router.get('/read-single-temp', (req, res) => {
+  router.post('/read-single-temp', (req, res) => {
     console.log('Requested single reading temperature.')
     maincontrol.readSingleTemp()
     res.send({message: 'Reading temperature.'})
@@ -69,7 +69,9 @@ module.exports = function (theSocket) {
   // Get full update
   router.post('/fullupdate', (req, res) => {
     console.log('Requested full update.')
-    res.send(maincontrol.getFullUpdate())
+    let answer = maincontrol.getFullUpdate()
+    console.log(answer)
+    res.send(answer)
   })
 
   // Change color
