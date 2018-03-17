@@ -1,41 +1,43 @@
 <template>
-  <div id="ArduinoGui" class="container">
-    <div class="row">
-      <div class="col">
+  <div id="ArduinoGui" class="container is-fluid">
+    <div class="columns">
+      <div class="column">
         Message from server: {{ message }}
       </div>
     </div>
-      <div>
+    <div class="columns">
+      <div class="column">
         <button type="button" class="btn btn-default" v-on:click="connectArduino" :disabled="connected">Connect Arduino</button>
         <button type="button" class="btn btn-default" v-on:click="closeArduino" :disabled="!connected">Close Arduino</button>
-      </div>
-      <div>
         <select v-model="portselected">
             <option v-for="port in ports" v-bind:value="port" v-bind:key="port">
                 {{ port }}
             </option>
         </select>
       </div>
-      <div>
+    </div>
+    <div class="columns">
+      <div class="column">
         <button type="button" class="btn btn-default" v-on:click="readSingleTemp">Read Temperature</button>
-      </div>
-      <div>
         <!-- <input type="checkbox" id="contReading" v-model="contreading" v-on:click="toggleTempReading"> -->
         <input type="checkbox" id="contReading" v-model="contreading">
         <label for="checkbox">Continuos Reading</label>
       </div>
-      <div>
-        <div v-if="this.mydata.options !== undefined">
-          <line-chart :width="600" :height="500" :chartData="mydata"></line-chart>
-        </div>
-      </div>
-      <div>
-        <div v-if="this.lummydata.options !== undefined">
-          <line-chart :width="600" :height="500" :chartData="lummydata"></line-chart>
-        </div>
-      </div>
-        <chrome-picker :value="colors" @input="updateValue"></chrome-picker>
     </div>
+    <div class="columns">
+      <div class="column is-6" v-if="this.mydata.options !== undefined">
+          <line-chart :width="600" :height="500" :chartData="mydata"></line-chart>
+      </div>
+      <div class="column is-6" v-if="this.lummydata.options !== undefined">
+          <line-chart :width="600" :height="500" :chartData="lummydata"></line-chart>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column">
+        <chrome-picker :value="colors" @input="updateValue"></chrome-picker>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -203,7 +205,7 @@ export default {
         responsive: true,
         maintainAspectRatio: false,
         title: {
-          display: true,
+          display: false,
           text: 'Temperatura'
         },
         scales: {
@@ -225,6 +227,13 @@ export default {
         }
       }
       preparingChart1.options = preparingChart.options
+      preparingChart1.options.scales.yAxes = [{
+        display: true,
+        scaleLabel: {
+          display: true,
+          labelString: 'Bytes'
+        }
+      }]
       this.mydata = preparingChart
       this.lummydata = preparingChart1
     }
