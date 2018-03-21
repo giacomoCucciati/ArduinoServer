@@ -4,6 +4,7 @@ module.exports = function(theSocket) {
 
   var arduino = require('./board')();
   var temperatureValues = [];
+  var temperatureValues2 = [];
   var luminosityValues = [];
   var mysocket = theSocket.of("/control");
   var mytimer = undefined;
@@ -31,13 +32,15 @@ module.exports = function(theSocket) {
   };
 
   var elaborateData = function(theSerialData) {
-    console.log(theSerialData)
     var d = new Date();
     for (var property in theSerialData) {
       if (theSerialData.hasOwnProperty(property)) {
           if(property === "Temperature") {
             temperatureValues.push({x: d.getTime(), y: parseFloat(theSerialData[property])});
             if(temperatureValues.length > configs.temp_length) temperatureValues = temperatureValues.slice(-configs.temp_length);
+          } else if(property === "Temperature2") {
+            temperatureValues2.push({x: d.getTime(), y: parseFloat(theSerialData[property])});
+            if(temperatureValues2.length > configs.temp_length) temperatureValues2 = temperatureValues2.slice(-configs.temp_length);
           } else if(property === "Luminosity") {
             luminosityValues.push({x: d.getTime(), y: parseFloat(theSerialData[property])});
             if(luminosityValues.length > configs.temp_length) luminosityValues = luminosityValues.slice(-configs.temp_length);
@@ -71,19 +74,19 @@ module.exports = function(theSocket) {
   };
 
   var getData = function() {
-    console.log("updating last value")
     return {
       message: "Updating last value.",
       temperatureData: temperatureValues[temperatureValues.length-1],
+      temperatureData2: temperatureValues2[temperatureValues2.length-1],
       luminosityData: luminosityValues[luminosityValues.length-1]
     };
   };
 
   var getFullUpdate = function() {
-    console.log("Full update required")
       return {
         message: "Updating arduino status.",
         temperatureData: temperatureValues,
+        temperatureData2: temperatureValues2,
         luminosityData: luminosityValues,
         ports: configs.ports,
         thePort: chosenPort,

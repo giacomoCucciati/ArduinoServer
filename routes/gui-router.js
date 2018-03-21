@@ -70,7 +70,6 @@ module.exports = function (theSocket) {
   router.post('/fullupdate', (req, res) => {
     console.log('Requested full update.')
     let answer = maincontrol.getFullUpdate()
-    console.log(answer)
     res.send(answer)
   })
 

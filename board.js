@@ -63,7 +63,6 @@ module.exports = function() {
   };
 
   var elaborateString = function(theString) {
-    console.log(theString);
     let theReading = {};
     let res = theString.split(" ");
     for (order in res) {
