@@ -3,10 +3,30 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
-
 var book = require('./routes/book');
-
+var debug = require('debug')('mean-app:server')
+var https = require('https')
 var app = express();
+var helmet = require('helmet');
+var fs = require('fs');
+
+
+const opts = { key: fs.readFileSync('server.key'),
+               cert: fs.readFileSync('server.crt'),
+               requestCert: true,
+               rejectUnauthorized: true,
+               ca: [ fs.readFileSync('myCA.pem') ]
+             }
+// Implement X-Frame: Deny
+app.use(helmet.frameguard('deny'));
+// Hide X-Powered-By
+app.use(helmet.hidePoweredBy());
+// Implement X-XSS-Protection
+app.use(helmet.xssFilter());
+
+app.use(bodyParser.urlencoded({
+   extended: true
+}));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -45,8 +65,7 @@ app.get('/*', (req, res) => {
  * Module dependencies.
  */
 
-var debug = require('debug')('mean-app:server')
-var http = require('http')
+
 
 /**
  * Get port from environment and store in Express.
@@ -59,7 +78,7 @@ app.set('port', port)
  * Create HTTP server.
  */
 
-var server = http.createServer(app)
+var server = https.createServer(opts,app)
 
 /**
  * Listen on provided port, on all network interfaces.
