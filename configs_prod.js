@@ -1,8 +1,8 @@
 module.exports = function() {
 
   var configs = {
-    secure: false,
-    serverPort: '3000',
+    secure: true,
+    serverPort: 4481,
     ports:[
       '/dev/ttyACM0',
       '/dev/tty.usbmodem1411',

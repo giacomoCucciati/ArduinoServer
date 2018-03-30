@@ -6,17 +6,13 @@ var bodyParser = require('body-parser');
 var book = require('./routes/book');
 var debug = require('debug')('mean-app:server')
 var https = require('https')
+var http = require('http')
 var app = express();
 var helmet = require('helmet');
 var fs = require('fs');
+var configs = require('./configs')();
 
 
-const opts = { key: fs.readFileSync('server.key'),
-               cert: fs.readFileSync('server.crt'),
-               requestCert: true,
-               rejectUnauthorized: true,
-               ca: [ fs.readFileSync('myCA.pem') ]
-             }
 // Implement X-Frame: Deny
 app.use(helmet.frameguard('deny'));
 // Hide X-Powered-By
@@ -70,16 +66,25 @@ app.get('/*', (req, res) => {
 /**
  * Get port from environment and store in Express.
  */
-
-var port = normalizePort(process.env.PORT || '3000')
+var port = normalizePort(process.env.PORT || configs.serverPort)
 app.set('port', port)
 
 /**
  * Create HTTP server.
  */
-
-var server = https.createServer(opts,app)
-
+var server = null;
+if(configs.secure) {
+  const opts = {
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.crt'),
+    requestCert: true,
+    rejectUnauthorized: true,
+    ca: [ fs.readFileSync('myCA.pem') ]
+  }
+  server = https.createServer(opts,app)
+} else {
+  server = http.createServer(app)
+}
 /**
  * Listen on provided port, on all network interfaces.
  */
