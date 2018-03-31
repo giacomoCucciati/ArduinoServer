@@ -45,6 +45,8 @@ import axios from 'axios'
 import io from 'socket.io-client'
 import lineChart from './LineChart'
 import chrome from './ChromePicker'
+import _ from 'lodash'
+
 var defaultProps = {
   rgba: {
     r: 0,
@@ -243,7 +245,7 @@ export default {
           }]
         }
       }
-      preparingChart1.options = preparingChart.options
+      preparingChart1.options = _.cloneDeep(preparingChart.options)
       preparingChart1.options.scales.yAxes = [{
         display: true,
         scaleLabel: {
