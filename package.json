@@ -28,7 +28,8 @@
     "vue-bulma": "0.0.35",
     "vue-chartjs": "^3.2.1",
     "vue-color": "^2.4.5",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "winston": "^2.4.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

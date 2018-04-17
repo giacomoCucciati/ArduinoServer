@@ -67,9 +67,11 @@ export default {
       socket: null,
       mydata: {},
       mydata2: {},
+      mydata3: {},
       lummydata: {},
       xyvector: [],
       xyvector2: [],
+      xyvector3: [],
       lumxyvector: [],
       options: { responsive: false, maintainAspectRatios: false },
       portselected: '',
@@ -152,11 +154,12 @@ export default {
     fillData (type, payload) {
       let temperatureValue = payload['temperatureData']
       let temperatureValue2 = payload['temperatureData2']
+      let temperatureValue3 = payload['temperatureData3']
       let luminosityValue = payload['luminosityData']
-
       if (type === 'last') {
         this.xyvector.push({x: new Date(temperatureValue.x), y: temperatureValue.y})
         this.xyvector2.push({x: new Date(temperatureValue2.x), y: temperatureValue2.y})
+        this.xyvector3.push({x: new Date(temperatureValue3.x), y: temperatureValue3.y})
         this.lumxyvector.push({x: new Date(luminosityValue.x), y: luminosityValue.y})
       } else if (type === 'all') {
         this.ports = payload['ports']
@@ -164,6 +167,7 @@ export default {
         this.contreading = payload['reading']
         this.xyvector = []
         this.xyvector2 = []
+        this.xyvector3 = []
         this.lumxyvector = []
         if (this.ports.indexOf(payload['thePort']) > 0) {
           this.portselected = payload['thePort']
@@ -175,6 +179,10 @@ export default {
         for (let el in temperatureValue2) {
           let singleValue = temperatureValue2[el]
           this.xyvector2.push({x: new Date(singleValue.x), y: singleValue.y})
+        }
+        for (let el in temperatureValue3) {
+          let singleValue = temperatureValue3[el]
+          this.xyvector3.push({x: new Date(singleValue.x), y: singleValue.y})
         }
         for (let el in luminosityValue) {
           let singleValue = luminosityValue[el]
@@ -200,6 +208,13 @@ export default {
         backgroundColor: 'transparent',
         pointBorderColor: 'blue',
         data: this.xyvector2
+      })
+      // Temperatura TMP36
+      preparingChart.datasets.push({
+        label: 'Temp3 (C)',
+        backgroundColor: 'transparent',
+        pointBorderColor: 'green',
+        data: this.xyvector3
       })
       let preparingChart1 = {}
       preparingChart1.type = 'line'
