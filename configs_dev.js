@@ -7,7 +7,7 @@ module.exports = function() {
       '/dev/ttyACM0',
       '/dev/tty.usbmodem1411',
     ],
-    intervalReading: 600, // seconds
+    intervalReading: 60, // seconds
     temp_length: 300
   }
 

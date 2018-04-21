@@ -8,7 +8,6 @@ module.exports = function(theSocket) {
   var arduino = require('./board')();
   var temperatureValues = [];
   var temperatureValues2 = [];
-  var temperatureValues3 = [];
   var luminosityValues = [];
   var mysocket = theSocket.of("/control");
   var mytimer = undefined;
@@ -46,9 +45,6 @@ module.exports = function(theSocket) {
           } else if(property === "Temperature2") {
             temperatureValues2.push({x: d.getTime(), y: parseFloat(theSerialData[property])});
             if(temperatureValues2.length > configs.temp_length) temperatureValues2 = temperatureValues2.slice(-configs.temp_length);
-          } else if(property === "Temperature3") {
-            temperatureValues3.push({x: d.getTime(), y: parseFloat(theSerialData[property])});
-            if(temperatureValues3.length > configs.temp_length) temperatureValues3 = temperatureValues3.slice(-configs.temp_length);
           } else if(property === "Luminosity") {
             luminosityValues.push({x: d.getTime(), y: parseFloat(theSerialData[property])});
             if(luminosityValues.length > configs.temp_length) luminosityValues = luminosityValues.slice(-configs.temp_length);
@@ -86,7 +82,6 @@ module.exports = function(theSocket) {
       message: "Updating last value.",
       temperatureData: temperatureValues[temperatureValues.length-1],
       temperatureData2: temperatureValues2[temperatureValues2.length-1],
-      temperatureData3: temperatureValues3[temperatureValues3.length-1],
       luminosityData: luminosityValues[luminosityValues.length-1]
     };
   };
@@ -96,7 +91,6 @@ module.exports = function(theSocket) {
         message: "Updating arduino status.",
         temperatureData: temperatureValues,
         temperatureData2: temperatureValues2,
-        temperatureData3: temperatureValues3,
         luminosityData: luminosityValues,
         ports: configs.ports,
         thePort: chosenPort,
